@@ -12,7 +12,7 @@ Meme Finder is a web application that allows users to search for memes using the
 
 ## Demo
 
-Check out the live demo [here](https://your-demo-url.com).
+Check out the live demo [here]([https://your-demo-url.com](https://securegarv.github.io/Meme-Finder/)).
 
 ## Technologies Used
 
