@@ -1,16 +1,22 @@
+let debounceTimer;
+const debounceDelay = 300;
+
 document.getElementById('search-input').addEventListener('input', function() {
     const query = this.value;
-    if (query.trim()) {
-        searchMemes(query);
-    } else {
-        clearMemes();
-    }
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+        if (query.trim()) {
+            searchMemes(query);
+        } else {
+            clearMemes();
+        }
+    }, debounceDelay);
 });
 
 async function searchMemes(query) {
-    const apiKey = 'mQbxashn9QwbwRFUATZE8YHPttjyma6O';
+    const apiKey = 'F3bzJt4vxzkakcd914cflzKSmPaR8wfp';
     const url = `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=${query}&limit=10&rating=g`;
-    
+
     try {
         const response = await fetch(url);
         const data = await response.json();
@@ -22,19 +28,13 @@ async function searchMemes(query) {
 
 function displayMemes(memes) {
     const memeContainer = document.getElementById('meme-container');
-    memeContainer.innerHTML = '';
-    
-    memes.forEach(meme => {
-        const memeDiv = document.createElement('div');
-        memeDiv.classList.add('meme');
-        
-        const img = document.createElement('img');
-        img.src = meme.images.fixed_height.url;
-        img.alt = meme.title;
-        
-        memeDiv.appendChild(img);
-        memeContainer.appendChild(memeDiv);
-    });
+    const memeHtml = memes.map(meme => `
+        <div class="meme">
+            <img src="${meme.images.fixed_height.url}" alt="${meme.title}">
+        </div>
+    `).join('');
+
+    memeContainer.innerHTML = memeHtml;
 }
 
 function clearMemes() {
